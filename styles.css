@@ -149,12 +149,18 @@ body {
     inset -2px -2px 0px #808080;
   background-color: inherit;
 }
-.game button:not(.flag):active {
+.game button:not(.flag):not([disabled]):active {
   box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #0a0a0a,
     inset -2px -2px 0px #dfdfdf;
 }
+.mine {
+  background-color: pink !important;
+}
 
 .game button.found {
-  border: 1px dashed black;
+  border: 0.5px dashed black;
   box-shadow: none;
+}
+.mine.found {
+  background-color: red !important;
 }
