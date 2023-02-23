@@ -10,6 +10,13 @@
 * {
   margin: 0;
   padding: 0;
+  border: none;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 4em;
 }
 .minesweeper {
   background-color: #c0c0c0;
@@ -17,17 +24,33 @@
 
   box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #dfdfdf,
     inset -2px -2px 0px #808080, inset 2px 2px 0px #ffffff;
+
+  width: 180px;
+  height: 270px;
+  padding: 3px;
 }
 
 .title-bar {
   background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
-  box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #dfdfdf,
-    inset -2px -2px 0px #808080, inset 2px 2px 0px #ffffff;
 
   color: white;
   font-family: microsoftSansSerifBold;
   font-weight: 400;
   font-size: 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 3px;
+}
+.title-bar div {
+  display: flex;
+  gap: 0.1em;
+}
+.title-bar h1 {
+  font-size: 1em;
+  margin-left: 0.2em;
 }
 .title-bar button {
   height: 15px;
@@ -36,6 +59,7 @@
     inset -2px -2px 0px #808080, inset 2px 2px 0px #dfdfdf;
 
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 .title-bar button img {
@@ -43,25 +67,45 @@
   height: 9px;
 }
 
+.menu {
+  padding: 1px;
+}
 .menu button {
   font-family: microsoftSansSerif;
+  background-color: inherit;
+  padding: 3px;
 }
 
 .container {
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
-
   box-shadow: inset 2px 2px 0px #ffffff, inset -2px -2px 0px #808080;
 
   padding: 11px;
-  gap: 11px;
 }
 .score-bar {
   box-shadow: inset -2px -2px 0px #ffffff, inset 2px 2px 0px #808080;
+
+  display: flex;
+  justify-content: space-around;
+  padding: 9px;
 }
-.score-bar h2 {
+
+#score,
+#tries {
+  display: flex;
+
+  padding: 2px;
+  gap: 2px;
+
+  background: #000000;
+  box-shadow: inset -0.541667px -0.541667px 0px #ffffff,
+    inset 0.541667px 0.541667px 0px #0a0a0a,
+    inset -1.08333px -1.08333px 0px #dfdfdf,
+    inset 1.08333px 1.08333px 0px #808080;
+}
+#score img,
+#tries img {
+  width: 12px;
+  height: 22px;
 }
 .score-bar div {
   display: flex;
@@ -77,8 +121,9 @@
 
 .game {
   display: grid;
-  grid-template-columns: repeat(1fr, 10);
-  grid-template-rows: repeat(1fr, 9);
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  margin-top: 11px;
 }
 .game button {
   height: 16px;
@@ -86,4 +131,5 @@
 
   box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
     inset -2px -2px 0px #808080;
+  background-color: inherit;
 }
