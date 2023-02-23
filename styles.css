@@ -1,6 +1,22 @@
+@font-face {
+  font-family: microsoftSansSerifBold;
+  src: url(assets/fonts/MS\ Sans\ Serif\ Bold.ttf);
+}
+@font-face {
+  font-family: microsoftSansSerif;
+  src: url(assets/fonts/MS\ Sans\ Serif.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
 .minesweeper {
   background-color: #c0c0c0;
   color: black;
+
+  box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #dfdfdf,
+    inset -2px -2px 0px #808080, inset 2px 2px 0px #ffffff;
 }
 
 .title-bar {
@@ -9,7 +25,7 @@
     inset -2px -2px 0px #808080, inset 2px 2px 0px #ffffff;
 
   color: white;
-  font-family: "MS Sans Serif Bold";
+  font-family: microsoftSansSerifBold;
   font-weight: 400;
   font-size: 11px;
 }
@@ -27,9 +43,8 @@
   height: 9px;
 }
 
-.menu {
-}
 .menu button {
+  font-family: microsoftSansSerif;
 }
 
 .container {
