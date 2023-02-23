@@ -48,6 +48,9 @@ body {
   display: flex;
   gap: 0.1em;
 }
+.title-bar span {
+  display: flex;
+}
 .title-bar h1 {
   font-size: 1em;
   margin-left: 0.2em;
@@ -61,6 +64,11 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+
+  background-color: #c0c0c0;
+}
+.title-bar span button:first-of-type {
+  align-items: flex-end;
 }
 .title-bar button img {
   width: 9px;
@@ -89,12 +97,14 @@ body {
   padding: 9px;
 }
 
-#score,
-#tries {
+#flags,
+#seconds {
   display: flex;
 
   padding: 2px;
   gap: 2px;
+
+  min-width: 10px;
 
   background: #000000;
   box-shadow: inset -0.541667px -0.541667px 0px #ffffff,
@@ -102,12 +112,12 @@ body {
     inset -1.08333px -1.08333px 0px #dfdfdf,
     inset 1.08333px 1.08333px 0px #808080;
 }
-#score img,
-#tries img {
+#flags img,
+#seconds img {
   width: 12px;
   height: 22px;
 }
-.score-bar div {
+#status {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -117,6 +127,12 @@ body {
 
   box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
     inset -2px -2px 0px #808080, inset 2px 2px 0px #dfdfdf;
+  background-color: inherit;
+}
+#status:active {
+  box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #0a0a0a,
+    inset -2px -2px 0px #dfdfdf;
+  opacity: 85%;
 }
 
 .game {
@@ -132,4 +148,13 @@ body {
   box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
     inset -2px -2px 0px #808080;
   background-color: inherit;
+}
+.game button:not(.flag):active {
+  box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #0a0a0a,
+    inset -2px -2px 0px #dfdfdf;
+}
+
+.game button.found {
+  border: 1px dashed black;
+  box-shadow: none;
 }

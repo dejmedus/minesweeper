@@ -20,12 +20,13 @@
                 <h1>Minesweeper</h1>
             </div>
             <div>
-                <button>
-                    <img src="./assets/title-bar/min.svg" alt="minimize window">
-                </button>
-                <button>
-                    <img src="./assets/title-bar/max.svg" alt="maximize window">
-                </button>
+                <span>
+                    <button>
+                        <img src="./assets/title-bar/min.svg" alt="minimize window">
+                    </button>
+                    <button>
+                        <img src="./assets/title-bar/max.svg" alt="maximize window">
+                    </button></span>
                 <button>
                     <img src="./assets/title-bar/close.svg" alt="close window">
                 </button>
@@ -37,9 +38,9 @@
         </div>
         <div class="container">
             <div class="score-bar">
-                <h2 id="score"></h2>
-                <div id="status"></div>
-                <h2 id="tries"></h2>
+                <h2 id="flags"></h2>
+                <button id="status"></button>
+                <h2 id="seconds"></h2>
             </div>
             <div id="game" class="game"></div>
         </div>
