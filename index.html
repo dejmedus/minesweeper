@@ -15,17 +15,19 @@
     <div class="minesweeper">
         <!-- 10x9 buttons -->
         <div class="title-bar">
-            <img src="./assets/mine.png" alt="minesweeper mine">
-            Minesweeper
+            <div>
+                <img src="./assets/mine.svg" alt="minesweeper mine">
+                <h1>Minesweeper</h1>
+            </div>
             <div>
                 <button>
-                    <img src="./title-bar/assets/min.png" alt="minimize window">
+                    <img src="./assets/title-bar/min.svg" alt="minimize window">
                 </button>
                 <button>
-                    <img src="./title-bar/assets/max.png" alt="maximize window">
+                    <img src="./assets/title-bar/max.svg" alt="maximize window">
                 </button>
                 <button>
-                    <img src="./title-bar/assets/close.png" alt="close window">
+                    <img src="./assets/title-bar/close.svg" alt="close window">
                 </button>
             </div>
         </div>
@@ -35,11 +37,9 @@
         </div>
         <div class="container">
             <div class="score-bar">
-                <h2 id="score">012</h2>
-                <div id="status">
-
-                </div>
-                <h2 id="tries">020</h2>
+                <h2 id="score"></h2>
+                <div id="status"></div>
+                <h2 id="tries"></h2>
             </div>
             <div id="game" class="game"></div>
         </div>
