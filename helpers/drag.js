@@ -2,7 +2,11 @@
 const minesweeper = document.getElementById('minesweeper');
 const titleBar = document.getElementById('title-bar');
 
-titleBar.addEventListener('mousedown', () => {
+let x = 0;
+let y = 0;
+titleBar.addEventListener('mousedown', (e) => {
+    x = e.offsetX;
+    y = e.offsetY;
     window.addEventListener('mousemove', drag);
 }, true);
 
@@ -11,6 +15,6 @@ window.addEventListener('mouseup', () => {
 }, true);
 
 function drag(e) {
-    minesweeper.style.top = e.clientY + 'px';
-    minesweeper.style.left = (e.clientX - 90) + 'px';
+    minesweeper.style.top = (e.clientY - y) + 'px';
+    minesweeper.style.left = (e.clientX - x) + 'px';
 }
