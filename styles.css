@@ -1,0 +1,74 @@
+.minesweeper {
+  background-color: #c0c0c0;
+  color: black;
+}
+
+.title-bar {
+  background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+  box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #dfdfdf,
+    inset -2px -2px 0px #808080, inset 2px 2px 0px #ffffff;
+
+  color: white;
+  font-family: "MS Sans Serif Bold";
+  font-weight: 400;
+  font-size: 11px;
+}
+.title-bar button {
+  height: 15px;
+  width: 15px;
+  box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
+    inset -2px -2px 0px #808080, inset 2px 2px 0px #dfdfdf;
+
+  display: flex;
+  justify-content: center;
+}
+.title-bar button img {
+  width: 9px;
+  height: 9px;
+}
+
+.menu {
+}
+.menu button {
+}
+
+.container {
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+
+  box-shadow: inset 2px 2px 0px #ffffff, inset -2px -2px 0px #808080;
+
+  padding: 11px;
+  gap: 11px;
+}
+.score-bar {
+  box-shadow: inset -2px -2px 0px #ffffff, inset 2px 2px 0px #808080;
+}
+.score-bar h2 {
+}
+.score-bar div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 26px;
+  width: 26px;
+
+  box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
+    inset -2px -2px 0px #808080, inset 2px 2px 0px #dfdfdf;
+}
+
+.game {
+  display: grid;
+  grid-template-columns: repeat(1fr, 10);
+  grid-template-rows: repeat(1fr, 9);
+}
+.game button {
+  height: 16px;
+  width: 16px;
+
+  box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
+    inset -2px -2px 0px #808080;
+}

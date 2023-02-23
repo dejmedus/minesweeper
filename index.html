@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Minesweeper</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="minesweeper">
+        <!-- 10x9 buttons -->
+        <div class="title-bar">
+            <img src="./assets/mine.png" alt="minesweeper mine">
+            Minesweeper
+            <div>
+                <button>
+                    <img src="./title-bar/assets/min.png" alt="minimize window">
+                </button>
+                <button>
+                    <img src="./title-bar/assets/max.png" alt="maximize window">
+                </button>
+                <button>
+                    <img src="./title-bar/assets/close.png" alt="close window">
+                </button>
+            </div>
+        </div>
+        <div class="menu">
+            <button>Game</button>
+            <button>Help</button>
+        </div>
+        <div class="container">
+            <div class="score-bar">
+                <h2 id="score">012</h2>
+                <div id="status">
+
+                </div>
+                <h2 id="tries">020</h2>
+            </div>
+            <div id="game" class="game"></div>
+        </div>
+
+    </div>
+    <script src="index.js"></script>
+</body>
+
+</html>
