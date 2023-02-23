@@ -7,6 +7,7 @@ const difficultySettings = {
 let seconds = 0;
 let gameStarted = false;
 let gameOver = false;
+let numberOfTilesFound = 0;
 
 const statusEl = document.getElementById("status");
 const secondsEl = document.getElementById("seconds");
@@ -19,6 +20,7 @@ setupGame();
 function setupGame() {
     // set initial values
     seconds = 0;
+    numberOfTilesFound = 0
     gameOver = false;
     let flags = difficultySettings.beginner[0];
     let mineMap = [];
@@ -57,8 +59,6 @@ function setupGame() {
             let sideCount = 0
 
             if ((i + 1) % 10 == 0) {
-                tile.classList.add("right");
-                // red
                 sideCount += mineMap.includes(i - 1) ? 1 : 0;
                 sideCount += mineMap.includes(i + 9) ? 1 : 0;
                 sideCount += mineMap.includes(i - 10) ? 1 : 0;
@@ -66,8 +66,6 @@ function setupGame() {
                 sideCount += mineMap.includes(i - 11) ? 1 : 0;
             }
             else if (i % 10 == 0) {
-                tile.classList.add("left");
-                // blue
                 sideCount += mineMap.includes(i + 1) ? 1 : 0;
                 sideCount += mineMap.includes(i - 9) ? 1 : 0;
                 sideCount += mineMap.includes(i + 10) ? 1 : 0;
@@ -85,7 +83,7 @@ function setupGame() {
                 sideCount += mineMap.includes(i - 11) ? 1 : 0;
             }
 
-            tile.innerHTML = sideCount != 0 ? `${sideCount}` : null;
+            tile.setAttribute("value", sideCount);
         }
 
         if (i < 10) {
@@ -112,14 +110,17 @@ function setupGame() {
                 if (e.target.classList.contains('mine')) {
                     e.target.innerHTML = `<img src="./assets/icons/mine.svg" alt="mine">`;
 
-                    gameStarted = false;
-                    gameOver = true;
-
-                    tiles.forEach(tile => {
-                        tile.setAttribute('disabled', true);
-                    })
-
+                    finishedGame(tiles)
                     setStatus("lost", "upset smiley face");
+                }
+
+                const sideCount = e.target.value;
+                tiles[i].innerHTML = sideCount != 0 ? `${sideCount}` : null;
+
+                numberOfTilesFound++;
+                if (numberOfTilesFound == (90 - difficultySettings.beginner[1])) {
+                    finishedGame(tiles);
+                    setStatus("won", "smiley face in sunglasses");
                 }
             }
         });
@@ -137,6 +138,8 @@ function setupGame() {
 
                     flags--;
                     setStatusNumbers(flagsEl, flags);
+
+                    tiles[i].setAttribute('disabled', true);
                 }
             }
         });
@@ -161,6 +164,16 @@ function startCount() {
             clearInterval(counter);
         }
     }, 1000);
+}
+
+
+function finishedGame(tiles) {
+    gameStarted = false;
+    gameOver = true;
+
+    tiles.forEach(tile => {
+        tile.setAttribute('disabled', true);
+    })
 }
 
 // playing, won, lost
