@@ -53,6 +53,40 @@ function setupGame() {
         if (mineMap.includes(i)) {
             tile.classList.add("mine");
         }
+        else {
+            let sideCount = 0
+
+            if ((i + 1) % 10 == 0) {
+                tile.classList.add("right");
+                // red
+                sideCount += mineMap.includes(i - 1) ? 1 : 0;
+                sideCount += mineMap.includes(i + 9) ? 1 : 0;
+                sideCount += mineMap.includes(i - 10) ? 1 : 0;
+                sideCount += mineMap.includes(i + 10) ? 1 : 0;
+                sideCount += mineMap.includes(i - 11) ? 1 : 0;
+            }
+            else if (i % 10 == 0) {
+                tile.classList.add("left");
+                // blue
+                sideCount += mineMap.includes(i + 1) ? 1 : 0;
+                sideCount += mineMap.includes(i - 9) ? 1 : 0;
+                sideCount += mineMap.includes(i + 10) ? 1 : 0;
+                sideCount += mineMap.includes(i - 10) ? 1 : 0;
+                sideCount += mineMap.includes(i + 11) ? 1 : 0;
+            }
+            else {
+                sideCount += mineMap.includes(i + 1) ? 1 : 0;
+                sideCount += mineMap.includes(i - 1) ? 1 : 0;
+                sideCount += mineMap.includes(i + 9) ? 1 : 0;
+                sideCount += mineMap.includes(i - 9) ? 1 : 0;
+                sideCount += mineMap.includes(i + 10) ? 1 : 0;
+                sideCount += mineMap.includes(i - 10) ? 1 : 0;
+                sideCount += mineMap.includes(i + 11) ? 1 : 0;
+                sideCount += mineMap.includes(i - 11) ? 1 : 0;
+            }
+
+            tile.innerHTML = sideCount != 0 ? `${sideCount}` : null;
+        }
 
         if (i < 10) {
             tile.id = `0${i}`
