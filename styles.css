@@ -17,8 +17,10 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 4em;
+  background-color: #008080;
 }
-.minesweeper {
+#minesweeper {
+  position: absolute;
   background-color: #c0c0c0;
   color: black;
 
@@ -27,11 +29,13 @@ body {
 
   width: 180px;
   height: 270px;
-  padding: 3px;
+  padding: 3px 3px 0 3px;
 }
 
-.title-bar {
+#title-bar {
   background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
+
+  cursor: pointer;
 
   color: white;
   font-family: microsoftSansSerifBold;
@@ -43,19 +47,26 @@ body {
   justify-content: space-between;
 
   padding: 3px;
+
+  /* https://css-tricks.com/almanac/properties/u/user-select/ */
+  -webkit-user-select: none; /* Chrome all / Safari all */
+  -moz-user-select: none; /* Firefox all */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none; /* Likely future */
 }
-.title-bar div {
+
+#title-bar div {
   display: flex;
   gap: 0.1em;
 }
-.title-bar span {
+#title-bar span {
   display: flex;
 }
-.title-bar h1 {
+#title-bar h1 {
   font-size: 1em;
   margin-left: 0.2em;
 }
-.title-bar button {
+#title-bar button {
   height: 15px;
   width: 15px;
   box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
@@ -67,10 +78,10 @@ body {
 
   background-color: #c0c0c0;
 }
-.title-bar span button:first-of-type {
+#title-bar span button:first-of-type {
   align-items: flex-end;
 }
-.title-bar button img {
+#title-bar button img {
   width: 9px;
   height: 9px;
 }
@@ -82,6 +93,12 @@ body {
   font-family: microsoftSansSerif;
   background-color: inherit;
   padding: 3px;
+}
+.menu button:active {
+  box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #85898d;
+}
+.menu button:focus {
+  box-shadow: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #85898d;
 }
 
 .container {
@@ -153,9 +170,6 @@ body {
   box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #0a0a0a,
     inset -2px -2px 0px #dfdfdf;
 }
-.mine {
-  background-color: pink !important;
-}
 
 .game button.found {
   border: 0.5px dashed black;
@@ -163,4 +177,7 @@ body {
 }
 .mine.found {
   background-color: red !important;
+}
+.mine {
+  background-color: pink !important;
 }
