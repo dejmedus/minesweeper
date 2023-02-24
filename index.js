@@ -1,7 +1,16 @@
-const difficultySettings = {
-    beginner: [10, 5],
-    intermediate: [8, 8],
-    expert: [5, 10]
+const settings = {
+    beginner: {
+        flags: 10,
+        mines: 10
+    },
+    intermediate: {
+        flags: 8,
+        mines: 20
+    },
+    expert: {
+        flags: 5,
+        mines: 32
+    },
 }
 
 let seconds = 0;
@@ -14,15 +23,43 @@ const secondsEl = document.getElementById("seconds");
 const flagsEl = document.getElementById("flags");
 const game = document.getElementById("game");
 // get difficulty mode from game dropdown
+const gameMenuButton = document.getElementById('game-btn');
+const helpMenuButton = document.getElementById('help-btn');
+
+const dialog = document.getElementById('dialog');
+const closeDialog = document.getElementById('close-dialog');
+
+const help = document.getElementById('help');
+const closeHelp = document.getElementById('close-help');
+let el;
 
 setupGame();
 
 function setupGame() {
+    // bind menu button events
+    gameMenuButton.addEventListener('click', () => {
+        dialog.classList.add('show');
+        gameMenuButton.classList.add('clicked');
+    })
+    helpMenuButton.addEventListener('click', () => {
+        help.classList.add('show');
+        helpMenuButton.classList.add('clicked');
+    })
+
+    closeDialog.addEventListener('click', () => {
+        dialog.classList.remove('show');
+        gameMenuButton.classList.remove('clicked');
+    })
+    closeHelp.addEventListener('click', () => {
+        help.classList.remove('show');
+        helpMenuButton.classList.remove('clicked');
+    })
+
     // set initial values
     seconds = 0;
     numberOfTilesFound = 0
     gameOver = false;
-    let flags = difficultySettings.beginner[0];
+    let flags = settings.beginner.flags;
     let mineMap = [];
 
     // set initial flags to zero
@@ -40,7 +77,7 @@ function setupGame() {
     setStatus("playing", 'smiley face');
 
     // generate mine map
-    for (let i = 0; i < difficultySettings.beginner[1]; i++) {
+    for (let i = 0; i < settings.beginner.mines; i++) {
         let index = Math.floor(Math.random() * 90 + 1);
         while (mineMap.includes(index)) {
             index = Math.floor(Math.random() * 90 + 1);
@@ -118,7 +155,7 @@ function setupGame() {
                 tiles[i].innerHTML = sideCount != 0 ? `${sideCount}` : null;
 
                 numberOfTilesFound++;
-                if (numberOfTilesFound == (90 - difficultySettings.beginner[1])) {
+                if (numberOfTilesFound == (90 - settings.beginner.mines)) {
                     finishedGame(tiles);
                     setStatus("won", "smiley face in sunglasses");
                 }
@@ -209,3 +246,9 @@ function setStatusNumbers(element, num) {
     }
 }
 
+function findParent(element) {
+    if (!element.hasAttribute('id')) {
+        element = element.parentNode;
+    }
+    return element;
+}

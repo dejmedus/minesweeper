@@ -18,12 +18,49 @@ body {
   align-items: center;
   margin-top: 4em;
   background-color: #008080;
+  color: black;
+  font-family: microsoftSansSerif;
 }
+
+#dialog,
+#help {
+  display: none;
+  position: absolute;
+  background-color: #c0c0c0;
+  box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #dfdfdf,
+    inset -2px -2px 0px #808080, inset 2px 2px 0px #ffffff;
+  padding: 3px 3px 0 3px;
+}
+#dialog {
+  left: 200px;
+  width: 220px;
+  height: 140px;
+}
+#help {
+  right: 200px;
+  width: 250px;
+  height: 170px;
+}
+.dialog-container,
+.help-container {
+  padding: 6px;
+}
+.dialog-container p,
+.help-container p {
+  font-size: 0.9em;
+}
+.help-container ul {
+  font-size: 0.9em;
+  list-style: none;
+  margin-top: 6px;
+}
+.show {
+  display: block !important;
+}
+
 #minesweeper {
   position: absolute;
   background-color: #c0c0c0;
-  color: black;
-
   box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #dfdfdf,
     inset -2px -2px 0px #808080, inset 2px 2px 0px #ffffff;
 
@@ -31,8 +68,7 @@ body {
   height: 270px;
   padding: 3px 3px 0 3px;
 }
-
-#title-bar {
+.title-bar {
   background: linear-gradient(90deg, #000080 0%, #1084d0 100%);
 
   cursor: pointer;
@@ -55,18 +91,23 @@ body {
   user-select: none; /* Likely future */
 }
 
-#title-bar div {
+.title-bar div {
   display: flex;
   gap: 0.1em;
 }
-#title-bar span {
-  display: flex;
+
+.title-bar button:last-of-type {
+  margin-left: 0.1em;
 }
-#title-bar h1 {
+.title-bar button:last-of-type:not([disabled]):active {
+  box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #0a0a0a,
+    inset -2px -2px 0px #dfdfdf, inset 2px 2px 0px #808080;
+}
+.title-bar h1 {
   font-size: 1em;
   margin-left: 0.2em;
 }
-#title-bar button {
+.title-bar button {
   height: 15px;
   width: 15px;
   box-shadow: inset -1px -1px 0px #0a0a0a, inset 1px 1px 0px #ffffff,
@@ -78,10 +119,15 @@ body {
 
   background-color: #c0c0c0;
 }
-#title-bar span button:first-of-type {
+.title-bar button:first-of-type {
   align-items: flex-end;
 }
-#title-bar button img {
+.title-bar button:first-of-type img {
+  height: 6px;
+  width: 8px;
+  margin-bottom: 1px;
+}
+.title-bar button img {
   width: 9px;
   height: 9px;
 }
@@ -97,7 +143,7 @@ body {
 .menu button:active {
   box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #85898d;
 }
-.menu button:focus {
+.menu button.clicked {
   box-shadow: inset 1px 1px 0px #ffffff, inset -1px -1px 0px #85898d;
 }
 

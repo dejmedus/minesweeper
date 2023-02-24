@@ -13,28 +13,88 @@
 
 <body>
 
+    <div id="dialog">
+        <div class="title-bar">
+            <div>
+                <img src="./assets/mine.svg" alt="minesweeper mine">
+                <h1>Game</h1>
+            </div>
+            <div>
+                <button>
+                    <img src="./assets/title-bar/min.svg" alt="minimize window">
+                </button>
+                <button>
+                    <img src="./assets/title-bar/max.svg" alt="maximize window">
+                </button>
+                <button id="close-dialog">
+                    <img src="./assets/title-bar/close.svg" alt="close window">
+                </button>
+            </div>
+        </div>
+        <div class="dialog-container">
+            <p>
+                Made by <a href="https://github.com/dejmedus">dejmedus</a>.
+                Built with the CC-BY-4.0 licensed <a
+                    href="https://www.figma.com/community/file/1205445784466486810">W100-2
+                    Design System</a> by <a href="https://twitter.com/gustaluz">@gustaluz</a>.
+            </p>
+        </div>
+    </div>
+
+    <div id="help">
+        <div class="title-bar">
+            <div>
+                <img src="./assets/mine.svg" alt="minesweeper mine">
+                <h1>Help</h1>
+            </div>
+            <div>
+                <button>
+                    <img src="./assets/title-bar/min.svg" alt="minimize window">
+                </button>
+                <button>
+                    <img src="./assets/title-bar/max.svg" alt="maximize window">
+                </button>
+                <button id="close-help">
+                    <img src="./assets/title-bar/close.svg" alt="close window">
+                </button>
+            </div>
+        </div>
+        <div class="help-container">
+            <p>
+                Minesweeper rules:
+            <ul>
+                <li>Left click to search a square.</li>
+                <li>Numbers express how many mines are adjacent to the square.</li>
+                <li>Right click to place a flag - this prevents potential mines from being clicked.</li>
+                <li>Click on a mine and you lose.</li>
+                <li>Discover every non-mine square to win.</li>
+            </ul>
+            </p>
+        </div>
+    </div>
+
+
     <div id="minesweeper">
-        <div id="title-bar">
+        <div class="title-bar">
             <div>
                 <img src="./assets/mine.svg" alt="minesweeper mine">
                 <h1>Minesweeper</h1>
             </div>
             <div>
-                <span>
-                    <button>
-                        <img src="./assets/title-bar/min.svg" alt="minimize window">
-                    </button>
-                    <button>
-                        <img src="./assets/title-bar/max.svg" alt="maximize window">
-                    </button></span>
                 <button>
+                    <img src="./assets/title-bar/min.svg" alt="minimize window">
+                </button>
+                <button>
+                    <img src="./assets/title-bar/max.svg" alt="maximize window">
+                </button>
+                <button disabled="true">
                     <img src="./assets/title-bar/close.svg" alt="close window">
                 </button>
             </div>
         </div>
         <div class="menu">
-            <button>Game</button>
-            <button>Help</button>
+            <button id="game-btn">Game</button>
+            <button id="help-btn">Help</button>
         </div>
         <div class="container">
             <div class="score-bar">
