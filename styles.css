@@ -235,7 +235,6 @@ body {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(9, 1fr);
   margin-top: 11px;
-  z-index: 2;
 }
 .game button {
   height: 16px;
@@ -256,7 +255,10 @@ body {
 }
 .mine.found {
   background-color: red !important;
+  background-image: url("assets/icons/mine.svg") !important;
+  background-position-x: 50% !important;
+  background-position-y: 50% !important;
 }
-/* .mine {
-  background-color: pink !important;
-} */
+.mine {
+  background-color: red !important;
+}
