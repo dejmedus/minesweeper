@@ -124,6 +124,7 @@ body {
 
 .title-bar div {
   display: flex;
+  align-items: center;
   gap: 0.1em;
 }
 
@@ -256,6 +257,6 @@ body {
 .mine.found {
   background-color: red !important;
 }
-.mine {
+/* .mine {
   background-color: pink !important;
-}
+} */
