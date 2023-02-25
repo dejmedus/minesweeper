@@ -162,13 +162,14 @@ function setupGame() {
 }
 
 function startGame(clickedIndex) {
+
     // first clicked tile is always a number square
     let adjacent = returnAdjacent(clickedIndex);
-    mineMap.push(mineMapIncludes(adjacent.length));
+    mineMap.push(adjacent[randomIndex(adjacent.length - 1, clickedIndex)]);
 
     // generate mine map
     for (let i = 0; i < gameSettings.mines - 1; i++) {
-        mineMapIncludes(90);
+        mineMap.push(randomIndex(90, clickedIndex));
     }
 
     // get tile numbers
@@ -205,23 +206,24 @@ function startGame(clickedIndex) {
     }, 1000);
 }
 
-function mineMapIncludes(highestNum) {
+function randomIndex(highestNum, firstClick) {
     let index = Math.floor(Math.random() * highestNum + 1);
-    while (mineMap.includes(index)) {
+    while (mineMap.includes(index) || index == firstClick) {
         index = Math.floor(Math.random() * highestNum + 1);
     }
-    mineMap.push(index);
+    return index;
 }
 
 function returnAdjacent(i) {
+    i = parseInt(i);
     if ((i + 1) % 10 == 0) {
-        return [i - 1, i + 9, i + 10, i - 10, i - 11];
+        return [i - 1, i + 9, i + 10, i - 10, i - 11].filter(a => a > 0);
     }
     else if (i % 10 == 0) {
-        return [i + 1, i - 9, i + 10, i - 10, i + 11];
+        return [i + 1, i - 9, i + 10, i - 10, i + 11].filter(a => a > 0);
     }
     else {
-        return [i + 1, i - 1, i + 9, i - 9, i + 10, i - 10, i + 11, i - 11];
+        return [i + 1, i - 1, i + 9, i - 9, i + 10, i - 10, i + 11, i - 11].filter(a => a > 0);
     }
 }
 
