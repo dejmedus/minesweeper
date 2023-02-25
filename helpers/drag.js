@@ -1,6 +1,7 @@
 // https://stackoverflow.com/questions/9334084/moveable-draggable-div
 const titleBars = [...document.querySelectorAll('.title-bar')];
 let parentElements = [];
+let clickOrder = [];
 
 let element;
 
@@ -9,13 +10,12 @@ let y = 0;
 for (let i = 0; i < titleBars.length; i++) {
     titleBars[i].addEventListener('mousedown', (e) => {
 
-        // bring current element to front
-        for (let j = 0; j < parentElements.length; j++) {
-            parentElements[j].style.zIndex = "1";
-        }
-
         element = parentElements[i];
-        element.style.zIndex = "2";
+
+        setZIndex({
+            element: parentElements[i],
+            name: `${parentElements[i]}`
+        });
 
         x = e.offsetX;
         y = e.offsetY;
@@ -30,13 +30,23 @@ for (let i = 0; i < titleBars.length; i++) {
     parentElements.push(element);
 
     // clicking anywhere on a div brings it to front
-    // element.addEventListener('click', (e) => {
-    //     for (let j = 0; j < parentElements.length; j++) {
-    //         parentElements[j].style.zIndex = "1";
-    //     }
+    element.addEventListener('click', (e) => {
+        setZIndex({
+            element: parentElements[i],
+            name: `${parentElements[i]}`
+        });
+    })
+}
 
-    //     e.target.style.zIndex = "2";
-    // })
+function setZIndex(div) {
+    if (clickOrder.includes(`${div.name}`)) {
+        clickOrder.splice(clickOrder.findIndex(div.name), 1);
+    }
+    clickOrder.push(div.element);
+
+    for (let i = 0; i < clickOrder.length; i++) {
+        clickOrder[i].style.zIndex = i + 1;
+    }
 }
 
 function drag(e) {
