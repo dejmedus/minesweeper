@@ -1,28 +1,10 @@
-const settings = {
-    beginner: {
-        flags: 10,
-        mines: 10
-    },
-    intermediate: {
-        flags: 8,
-        mines: 20
-    },
-    expert: {
-        flags: 5,
-        mines: 32
-    },
-}
-
-let seconds = 0;
-let gameStarted = false;
-let gameOver = false;
-let numberOfTilesFound = 0;
-
 const statusEl = document.getElementById("status");
 const secondsEl = document.getElementById("seconds");
 const flagsEl = document.getElementById("flags");
 const game = document.getElementById("game");
-// get difficulty mode from game dropdown
+
+const difficultySelect = document.getElementById("difficulty");
+
 const gameMenuButton = document.getElementById('game-btn');
 const helpMenuButton = document.getElementById('help-btn');
 
@@ -31,36 +13,76 @@ const closeDialog = document.getElementById('close-dialog');
 
 const help = document.getElementById('help');
 const closeHelp = document.getElementById('close-help');
-let el;
+
+const settings = {
+    beginner: {
+        flags: 12,
+        mines: 10
+    },
+    intermediate: {
+        flags: 10,
+        mines: 20
+    },
+    expert: {
+        flags: 8,
+        mines: 32
+    },
+}
+
+let gameStarted = false;
+let seconds = 0;
+let numberOfTilesFound = 0;
+let mineMap = [];
+let greyTiles = [];
+let gameSettings = settings[difficultySelect.value];
+let flags = gameSettings.flags;
+
+// on difficulty setting change
+difficultySelect.addEventListener('change', () => {
+    gameSettings = settings[difficultySelect.value];
+    // reset game
+    gameStarted = false;
+    setupGame();
+})
+
+// bind menu button events
+gameMenuButton.addEventListener('click', () => {
+    dialog.classList.add('show');
+    gameMenuButton.classList.add('clicked');
+    dialog.style.zIndex = "3";
+})
+helpMenuButton.addEventListener('click', () => {
+    help.classList.add('show');
+    helpMenuButton.classList.add('clicked');
+    help.style.zIndex = "3";
+})
+
+closeDialog.addEventListener('click', () => {
+    dialog.classList.remove('show');
+    gameMenuButton.classList.remove('clicked');
+})
+closeHelp.addEventListener('click', () => {
+    help.classList.remove('show');
+    helpMenuButton.classList.remove('clicked');
+})
+
+// clicking status button resets game
+statusEl.addEventListener('click', () => {
+    gameStarted = false;
+    setupGame();
+})
+
 
 setupGame();
 
 function setupGame() {
-    // bind menu button events
-    gameMenuButton.addEventListener('click', () => {
-        dialog.classList.add('show');
-        gameMenuButton.classList.add('clicked');
-    })
-    helpMenuButton.addEventListener('click', () => {
-        help.classList.add('show');
-        helpMenuButton.classList.add('clicked');
-    })
-
-    closeDialog.addEventListener('click', () => {
-        dialog.classList.remove('show');
-        gameMenuButton.classList.remove('clicked');
-    })
-    closeHelp.addEventListener('click', () => {
-        help.classList.remove('show');
-        helpMenuButton.classList.remove('clicked');
-    })
 
     // set initial values
     seconds = 0;
     numberOfTilesFound = 0
-    gameOver = false;
-    let flags = settings.beginner.flags;
-    let mineMap = [];
+    flags = gameSettings.flags;
+    mineMap = [];
+    greyTiles = [];
 
     // set initial flags to zero
     setStatusNumbers(flagsEl, flags);
@@ -69,15 +91,10 @@ function setupGame() {
     setStatusNumbers(secondsEl, seconds);
 
     // set initial game status to 'playing'
-    statusEl.addEventListener('click', () => {
-        // restart game
-        gameStarted = false;
-        setupGame();
-    })
     setStatus("playing", 'smiley face');
 
     // generate mine map
-    for (let i = 0; i < settings.beginner.mines; i++) {
+    for (let i = 0; i < gameSettings.mines; i++) {
         let index = Math.floor(Math.random() * 90 + 1);
         while (mineMap.includes(index)) {
             index = Math.floor(Math.random() * 90 + 1);
@@ -121,10 +138,16 @@ function setupGame() {
             }
 
             tile.setAttribute("value", sideCount);
+            tile.innerHTML = sideCount != 0 ? `${sideCount}` : null;
+
+            if (sideCount == 0) {
+                greyTiles.push(i);
+                tile.style.backgroundColor = "purple";
+            }
         }
 
         if (i < 10) {
-            tile.id = `0${i}`
+            tile.id = `${i}`
         }
         else {
             tile.id = `${i}`
@@ -133,51 +156,64 @@ function setupGame() {
         game.appendChild(tile);
     }
 
+    // group grey tiles
+
+
+
+
+
     // add event trigger to tiles
     let tiles = [...document.querySelectorAll('.tile')];
 
     for (let i = 0; i < tiles.length; i++) {
         tiles[i].addEventListener('click', (e) => {
-            if (!gameOver) {
-                !gameStarted && startGame();
+            !gameStarted && startGame();
 
-                e.target.classList.add("found");
+            e.target.classList.add("found");
 
-                // if tile has a mine
-                if (e.target.classList.contains('mine')) {
-                    e.target.innerHTML = `<img src="./assets/icons/mine.svg" alt="mine">`;
+            // if tile has a mine
+            if (e.target.classList.contains('mine')) {
+                e.target.innerHTML = `<img src="./assets/icons/mine.svg" alt="mine">`;
 
-                    finishedGame(tiles)
-                    setStatus("lost", "upset smiley face");
-                }
+                finishedGame(tiles);
+                setStatus("lost", "upset smiley face");
+            }
 
-                const sideCount = e.target.value;
-                tiles[i].innerHTML = sideCount != 0 ? `${sideCount}` : null;
+            const sideCount = e.target.value;
+            tiles[i].innerHTML = sideCount != 0 ? `${sideCount}` : null;
 
+            if (sideCount == 0) {
+                // reveal all grey squares in group
+                greyTiles.forEach(tile => {
+                    tiles[tile].classList.add('found');
+                })
+                // numberOfTilesFound += numberOfGreySquaresInGroup
+                numberOfTilesFound += greyTiles.length;
+            }
+            else {
                 numberOfTilesFound++;
-                if (numberOfTilesFound == (90 - settings.beginner.mines)) {
-                    finishedGame(tiles);
-                    setStatus("won", "smiley face in sunglasses");
-                }
+            }
+
+            if (numberOfTilesFound == (90 - gameSettings.mines)) {
+                finishedGame(tiles);
+                setStatus("won", "smiley face in sunglasses");
             }
         });
 
         tiles[i].addEventListener('contextmenu', (e) => {
-            if (!gameOver) {
-                !gameStarted && startGame();
+            !gameStarted && startGame();
 
-                // prevent context menu from opening
-                e.preventDefault();
+            // prevent context menu from opening
+            e.preventDefault();
 
-                if (flags > 0) {
-                    e.target.classList.add("flag");
-                    e.target.innerHTML = `<img src="./assets/icons/flag.svg" alt="flag">`
+            if (flags > 0) {
+                e.target.classList.add("flag");
+                e.target.innerHTML = `<img src="./assets/icons/flag.svg" alt="flag">`
 
-                    flags--;
-                    setStatusNumbers(flagsEl, flags);
+                flags--;
+                setStatusNumbers(flagsEl, flags);
 
-                    tiles[i].setAttribute('disabled', true);
-                }
+                tiles[i].setAttribute('disabled', true);
             }
         });
     }
@@ -187,11 +223,6 @@ function startGame() {
     gameStarted = true;
 
     // start timer
-    startCount();
-}
-
-// seconds count
-function startCount() {
     const counter = setInterval(() => {
         if (gameStarted) {
             seconds++;
@@ -203,21 +234,26 @@ function startCount() {
     }, 1000);
 }
 
-
+// !gameStarted stops seconds timer
 function finishedGame(tiles) {
     gameStarted = false;
-    gameOver = true;
 
     tiles.forEach(tile => {
         tile.setAttribute('disabled', true);
     })
 }
 
-// playing, won, lost
+function changeDifficulty(e) {
+    difficulty = e.target.value;
+    return settings[difficulty];
+}
+
+// gameStatus: playing, won, lost
 function setStatus(gameStatus, alt) {
     statusEl.innerHTML = `<img src="./assets/status/${gameStatus}.svg" alt="${alt}">`
 }
 
+// flags & seconds
 function setStatusNumbers(element, num) {
     const numStr = num.toString();
     const zero = `<img src="./assets/status-numbers/0.png" alt="number 0">`;
@@ -245,6 +281,7 @@ function setStatusNumbers(element, num) {
         }
     }
 }
+
 
 function findParent(element) {
     if (!element.hasAttribute('id')) {

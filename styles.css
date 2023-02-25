@@ -12,6 +12,21 @@
   padding: 0;
   border: none;
 }
+
+select {
+  padding: 10px;
+  padding-right: 30px;
+  width: 90px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("/assets/select-arrow.svg") !important;
+  background-size: 0.7em !important;
+  background-repeat: no-repeat !important;
+  background-position-x: 95% !important;
+  background-position-y: 55% !important;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -49,6 +64,21 @@ body {
 .help-container p {
   font-size: 0.9em;
 }
+
+.dialog-container label {
+  font-family: microsoftSansSerifBold;
+  font-size: 0.8em;
+  margin-top: 1em;
+  margin-right: 0.2em;
+}
+.dialog-container select {
+  margin-top: 1em;
+  background: white;
+  box-shadow: inset -1px -1px 0px #ffffff, inset 1px 1px 0px #808080,
+    inset -2px -2px 0px #dfdfdf, inset 2px 2px 0px #0a0a0a;
+  font-family: microsoftSansSerif;
+  padding: 2px 2px 2px 6px;
+}
 .help-container ul {
   font-size: 0.9em;
   list-style: none;
@@ -84,6 +114,7 @@ body {
 
   padding: 3px;
 
+  /* Removes text highlight when title-bar is clicked */
   /* https://css-tricks.com/almanac/properties/u/user-select/ */
   -webkit-user-select: none; /* Chrome all / Safari all */
   -moz-user-select: none; /* Firefox all */
@@ -203,6 +234,7 @@ body {
   grid-template-columns: repeat(10, 1fr);
   grid-template-rows: repeat(9, 1fr);
   margin-top: 11px;
+  z-index: 2;
 }
 .game button {
   height: 16px;
