@@ -33,9 +33,9 @@ let gameStarted = false;
 let seconds = 0;
 let numberOfTilesFound = 0;
 let mineMap = [];
-let greyTiles = [];
 let gameSettings = settings[difficultySelect.value];
 let flags = gameSettings.flags;
+let tiles = [];
 
 // on difficulty setting change
 difficultySelect.addEventListener('change', () => {
@@ -93,58 +93,10 @@ function setupGame() {
     // set initial game status to 'playing'
     setStatus("playing", 'smiley face');
 
-    // generate mine map
-    for (let i = 0; i < gameSettings.mines; i++) {
-        let index = Math.floor(Math.random() * 90 + 1);
-        while (mineMap.includes(index)) {
-            index = Math.floor(Math.random() * 90 + 1);
-        }
-        mineMap.push(index);
-    }
-
     // populate sweeper tiles
     game.replaceChildren();
     for (let i = 0; i < 90; i++) {
         const tile = document.createElement("button");
-        if (mineMap.includes(i)) {
-            tile.classList.add("mine");
-        }
-        else {
-            let sideCount = 0
-
-            if ((i + 1) % 10 == 0) {
-                sideCount += mineMap.includes(i - 1) ? 1 : 0;
-                sideCount += mineMap.includes(i + 9) ? 1 : 0;
-                sideCount += mineMap.includes(i - 10) ? 1 : 0;
-                sideCount += mineMap.includes(i + 10) ? 1 : 0;
-                sideCount += mineMap.includes(i - 11) ? 1 : 0;
-            }
-            else if (i % 10 == 0) {
-                sideCount += mineMap.includes(i + 1) ? 1 : 0;
-                sideCount += mineMap.includes(i - 9) ? 1 : 0;
-                sideCount += mineMap.includes(i + 10) ? 1 : 0;
-                sideCount += mineMap.includes(i - 10) ? 1 : 0;
-                sideCount += mineMap.includes(i + 11) ? 1 : 0;
-            }
-            else {
-                sideCount += mineMap.includes(i + 1) ? 1 : 0;
-                sideCount += mineMap.includes(i - 1) ? 1 : 0;
-                sideCount += mineMap.includes(i + 9) ? 1 : 0;
-                sideCount += mineMap.includes(i - 9) ? 1 : 0;
-                sideCount += mineMap.includes(i + 10) ? 1 : 0;
-                sideCount += mineMap.includes(i - 10) ? 1 : 0;
-                sideCount += mineMap.includes(i + 11) ? 1 : 0;
-                sideCount += mineMap.includes(i - 11) ? 1 : 0;
-            }
-
-            tile.setAttribute("value", sideCount);
-            tile.innerHTML = sideCount != 0 ? `${sideCount}` : null;
-
-            if (sideCount == 0) {
-                greyTiles.push(i);
-                tile.style.backgroundColor = "purple";
-            }
-        }
 
         if (i < 10) {
             tile.id = `${i}`
@@ -156,40 +108,30 @@ function setupGame() {
         game.appendChild(tile);
     }
 
-    // group grey tiles
-
-
-
-
-
     // add event trigger to tiles
-    let tiles = [...document.querySelectorAll('.tile')];
+    tiles = [...document.querySelectorAll('.tile')];
+
 
     for (let i = 0; i < tiles.length; i++) {
         tiles[i].addEventListener('click', (e) => {
-            !gameStarted && startGame();
+            !gameStarted && startGame(e.target.id);
 
             e.target.classList.add("found");
 
             // if tile has a mine
             if (e.target.classList.contains('mine')) {
-                e.target.innerHTML = `<img src="./assets/icons/mine.svg" alt="mine">`;
-
                 finishedGame(tiles);
                 setStatus("lost", "upset smiley face");
             }
 
             const sideCount = e.target.value;
-            tiles[i].innerHTML = sideCount != 0 ? `${sideCount}` : null;
+            tiles[i].innerHTML = sideCount != 0 ? `<img src="assets/icons/${sideCount}.svg" alt="Number ${sideCount}" />` : null;
 
             if (sideCount == 0) {
                 // reveal all grey squares in group
-                greyTiles.forEach(tile => {
-                    tiles[tile].classList.add('found');
-                })
-                // numberOfTilesFound += numberOfGreySquaresInGroup
-                numberOfTilesFound += greyTiles.length;
+                // numberOfTilesFound += revealed
             }
+
             else {
                 numberOfTilesFound++;
             }
@@ -201,7 +143,7 @@ function setupGame() {
         });
 
         tiles[i].addEventListener('contextmenu', (e) => {
-            !gameStarted && startGame();
+            !gameStarted && startGame(e.target.id);
 
             // prevent context menu from opening
             e.preventDefault();
@@ -219,7 +161,36 @@ function setupGame() {
     }
 }
 
-function startGame() {
+function startGame(clickedIndex) {
+    // first clicked tile is always a number square
+    let adjacent = returnAdjacent(clickedIndex);
+    mineMap.push(mineMapIncludes(adjacent.length));
+
+    // generate mine map
+    for (let i = 0; i < gameSettings.mines - 1; i++) {
+        mineMapIncludes(90);
+    }
+
+    // get tile numbers
+    for (let i = 0; i < 90; i++) {
+        if (mineMap.includes(i)) {
+            tiles[i].classList.add("mine");
+        }
+        else {
+            let sideCount = 0
+            adjacent = returnAdjacent(i);
+
+            for (let i = 0; i < adjacent.length; i++) {
+                sideCount += mineMap.includes(adjacent[i]) ? 1 : 0;
+            }
+
+            if (sideCount != 0) {
+                tiles[i].setAttribute("value", sideCount);
+                tiles[i].innerHTML = `<img src="assets/icons/${sideCount}.svg" alt="Number ${sideCount}" />`;
+            }
+        }
+    }
+
     gameStarted = true;
 
     // start timer
@@ -232,6 +203,26 @@ function startGame() {
             clearInterval(counter);
         }
     }, 1000);
+}
+
+function mineMapIncludes(highestNum) {
+    let index = Math.floor(Math.random() * highestNum + 1);
+    while (mineMap.includes(index)) {
+        index = Math.floor(Math.random() * highestNum + 1);
+    }
+    mineMap.push(index);
+}
+
+function returnAdjacent(i) {
+    if ((i + 1) % 10 == 0) {
+        return [i - 1, i + 9, i + 10, i - 10, i - 11];
+    }
+    else if (i % 10 == 0) {
+        return [i + 1, i - 9, i + 10, i - 10, i + 11];
+    }
+    else {
+        return [i + 1, i - 1, i + 9, i - 9, i + 10, i - 10, i + 11, i - 11];
+    }
 }
 
 // !gameStarted stops seconds timer
@@ -280,12 +271,4 @@ function setStatusNumbers(element, num) {
             element.innerHTML += `<img src="./assets/status-numbers/${numStr[1]}.png" alt="number ${numStr[1]}">`
         }
     }
-}
-
-
-function findParent(element) {
-    if (!element.hasAttribute('id')) {
-        element = element.parentNode;
-    }
-    return element;
 }
