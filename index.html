@@ -13,8 +13,8 @@
 
 <body>
 
-    <div id="dialog">
-        <div class="title-bar">
+    <div id="dialog" data-clicks="dialog">
+        <div class="title-bar" data-clicks="dialog">
             <div>
                 <img src="./assets/directory.svg" alt="folder with magnifying glass">
                 <h1>Game</h1>
@@ -49,8 +49,8 @@
         </div>
     </div>
 
-    <div id="help">
-        <div class="title-bar">
+    <div id="help" data-clicks="help">
+        <div class="title-bar" data-clicks="help">
             <div>
                 <img src="./assets/help.svg" alt="question mark">
                 <h1>Help</h1>
@@ -82,8 +82,8 @@
     </div>
 
 
-    <div id="minesweeper">
-        <div class="title-bar">
+    <div id="minesweeper" data-clicks="minesweeper">
+        <div class="title-bar" data-clicks="minesweeper">
             <div>
                 <img src="./assets/mine.svg" alt="minesweeper mine">
                 <h1>Minesweeper</h1>
@@ -101,8 +101,8 @@
             </div>
         </div>
         <div class="menu">
-            <button id="game-btn">Game</button>
-            <button id="help-btn">Help</button>
+            <button id="game-btn" data-clicks="dialog">Game</button>
+            <button id="help-btn" data-clicks="help">Help</button>
         </div>
         <div class="container">
             <div class="score-bar">
